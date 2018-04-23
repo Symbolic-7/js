@@ -34,20 +34,27 @@ test.describe('CheckStickers', function() {
         driver.wait(until.elementLocated(By.css('#box-most-popular')), 10000/*ms*/);
         //driver.findElement(By.css('#box-most-popular')).isDisplayed();
 
+        driver.findElements(By.css("#main > div > .content > div")).then(function (ids) {
+        //console.log('Found', ids.length, 'ids.');
 
-        driver.findElements(By.css('.product')).then(function (goods) {
-            console.log('Found', goods.length, 'goods в блоке популярные.');
 
-            for (let i = 1; i <= goods.length; i++) {
-                driver.findElements(By.css("#box-most-popular li:nth-child(" + i + ") div.sticker")).then(function (sticker) {
-                    console.log('Found', sticker.length, 'sticker.');
+            for (let j = 3; j <= ids.length; j++) {
 
-                    var assert = require('assert');
-                    assert.equal(sticker.length,1); //OK
+                driver.findElements(By.css("#main > div > .content > div:nth-child(" + j + ") li")).then(function (goods) {
+                console.log('Found', goods.length, 'goods.');
 
+                    for (let i = 1; i <= goods.length; i++) {
+                        driver.findElements(By.css("#main > div > .content > div:nth-child(" + j + ") li:nth-child(" + i + ") div.sticker")).then(function (sticker) {
+                            console.log('Found', sticker.length, 'sticker.');
+
+                            let assert = require('assert');
+                            assert.equal(sticker.length, 1); //OK
+
+                        });
+                    }
                 });
             }
-        });
+    })
     });
     test.after(() => driver.quit());
 });
