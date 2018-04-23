@@ -31,41 +31,23 @@ test.describe('CheckStickers', function() {
     test.it('works with generators', function() {
 
         driver.get('http://localhost/litecart/en/');
-        //driver.wait(until.titleIs('My Store'), 10000);
+        driver.wait(until.elementLocated(By.css('#box-most-popular')), 10000/*ms*/);
+        //driver.findElement(By.css('#box-most-popular')).isDisplayed();
 
 
         driver.findElements(By.css('.product')).then(function (goods) {
-            console.log('Found', goods.length, 'goods.');
+            console.log('Found', goods.length, 'goods в блоке популярные.');
 
-            driver.findElements(By.css('.sticker')).then(function (stickers) {
-                console.log('Found', stickers.length, 'sticker.');
+            for (let i = 1; i <= goods.length; i++) {
+                driver.findElements(By.css("#box-most-popular li:nth-child(" + i + ") div.sticker")).then(function (sticker) {
+                    console.log('Found', sticker.length, 'sticker.');
 
-                //product.length == stickers.length);
-            });
+                    var assert = require('assert');
+                    assert.equal(sticker.length,1); //OK
 
-            driver.findElement(By.css(".product li:nth-child.sticker")).isDisplayed();
-
-            for (let i = 1; i < goods.length; i++) {
-
-                //driver.findElement(By.xpath("//*[@class = 'product']/li[" + i + "]"));
-          let good = driver.findElement(By.css(".product li:nth-child(" + i + ")"));
-            let sticker = good.findElements(By.css(".sticker")).isDisplayed();
-
-
-
-/*
-                driver.findElements(By.css('.docs li')).then(function (sublinks) {
-                    console.log('Found', sublinks.length, 'sublinks.');
-
-                    for (let j = 2; j <= sublinks.length; j++) {
-
-                        driver.findElement(By.xpath("//*[@class = 'docs']/li[" + j + "]")).click();
-                        driver.findElement(By.css("h1")).isDisplayed();
-                    }
                 });
             }
-        });*/
+        });
     });
-
     test.after(() => driver.quit());
 });
