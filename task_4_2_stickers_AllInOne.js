@@ -33,14 +33,14 @@ test.describe('CheckStickers', function() {
         driver.get('http://localhost/litecart/en/');
         driver.wait(until.elementLocated(By.css('#box-most-popular')), 10000/*ms*/);
         //driver.findElement(By.css('#box-most-popular')).isDisplayed();
-
+        //*[@id="box-most-popular"]
         driver.findElements(By.css("#main > div > .content > div")).then(function (ids) {
-        //console.log('Found', ids.length, 'ids.');
+        console.log('Found', ids.length, 'ids.');
 
 
             for (let j = 3; j <= ids.length; j++) {
 
-                driver.findElements(By.css("#main > div > .content > div:nth-child(" + j + ") li")).then(function (goods) {
+                driver.findElements(By.css("#main > div > .content > div:nth-child(" + j + ") li.product")).then(function (goods) {
                 console.log('Found', goods.length, 'goods.');
 
                     for (let i = 1; i <= goods.length; i++) {
